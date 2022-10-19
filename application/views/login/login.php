@@ -1,8 +1,5 @@
 <?php
 	$companyInfo = $this->db->query("select * from tbl_company c order by c.Company_SlNo desc limit 1")->row();
-	// echo "<pre>";
-	// print_r($companyInfo);
-	// exit;
 ?>
 <!DOCTYPE html>
 <html>

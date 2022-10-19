@@ -60,12 +60,6 @@
 					<v-select v-bind:options="brands" v-model="selectedBrand" label="brand_name"></v-select>
 				</div>
 			</div>
-
-			<div class="form-group" style="margin-top:10px;" v-if="selectedSearchType.value != 'current'">
-				<div class="col-sm-2" style="margin-left:15px;">
-					<input type="date" class="form-control" v-model="date">
-				</div>
-			</div>
 	
 			<div class="form-group">
 				<div class="col-sm-2"  style="margin-left:15px;">
@@ -89,7 +83,6 @@
 							<th>Product Name</th>
 							<th>Category</th>
 							<th>Current Quantity</th>
-							<th>Rate</th>
 							<th>Stock Value</th>
 						</tr>
 					</thead>
@@ -99,14 +92,13 @@
 							<td>{{ product.Product_Name }}</td>
 							<td>{{ product.ProductCategory_Name }}</td>
 							<td>{{ product.current_quantity }} {{ product.Unit_Name }}</td>
-							<td>{{ product.Product_Purchase_Rate | decimal }}</td>
 							<td>{{ product.stock_value | decimal }}</td>
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr>
-							<th colspan="5" style="text-align:right;">Total Stock Value</th>
-							<th>{{ totalStockValue | decimal }}</th>
+							<td colspan="4" style="text-align:right;">Total Stock Value</td>
+							<td>{{ totalStockValue | decimal }}</td>
 						</tr>
 					</tfoot>
 				</table>
@@ -120,16 +112,15 @@
 							<th>Product Id</th>
 							<th>Product Name</th>
 							<th>Category</th>
+							<th>Production Quantity</th>
 							<th>Purchased Quantity</th>
 							<th>Purchase Returned Quantity</th>
 							<th>Damaged Quantity</th>
-							<th>Sold Qty - Software</th>
-							<th>Sold Qty - Website</th>
+							<th>Sold Quantity</th>
 							<th>Sales Returned Quantity</th>
 							<th>Transferred In Quantity</th>
 							<th>Transferred Out Quantity</th>
 							<th>Current Quantity</th>
-							<th>Rate</th>
 							<th>Stock Value</th>
 						</tr>
 					</thead>
@@ -138,23 +129,22 @@
 							<td>{{ product.Product_Code }}</td>
 							<td>{{ product.Product_Name }}</td>
 							<td>{{ product.ProductCategory_Name }}</td>
+							<td>{{ product.production_quantity }}</td>
 							<td>{{ product.purchased_quantity }}</td>
 							<td>{{ product.purchase_returned_quantity }}</td>
 							<td>{{ product.damaged_quantity }}</td>
 							<td>{{ product.sold_quantity }}</td>
-							<td>{{ product.sold_quantity_website }}</td>
 							<td>{{ product.sales_returned_quantity }}</td>
 							<td>{{ product.transferred_to_quantity}}</td>
 							<td>{{ product.transferred_from_quantity}}</td>
 							<td>{{ product.current_quantity }} {{ product.Unit_Name }}</td>
-							<td>{{ product.Product_Purchase_Rate | decimal }}</td>
 							<td>{{ product.stock_value | decimal }}</td>
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr>
-							<th colspan="13" style="text-align:right;">Total Stock Value</th>
-							<th>{{ totalStockValue | decimal }}</th>
+							<td colspan="12" style="text-align:right;">Total Stock Value</td>
+							<td>{{ totalStockValue | decimal }}</td>
 						</tr>
 					</tfoot>
 				</table>
@@ -167,7 +157,6 @@
 <script src="<?php echo base_url();?>assets/js/vue/vue.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/vue/axios.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/vue/vue-select.min.js"></script>
-<script src="<?php echo base_url();?>assets/js/moment.min.js"></script>
 
 <script>
 	Vue.component('v-select', VueSelect.VueSelect);
@@ -187,7 +176,6 @@
 					value: ''
 				},
 				searchType: null,
-				date: moment().format('YYYY-MM-DD'),
 				categories: [],
 				selectedCategory: null,
 				products: [],
@@ -211,22 +199,22 @@
 			getStock(){
 				this.searchType = this.selectedSearchType.value;
 				let url = '';
-				let parameters = {};
-
 				if(this.searchType == 'current'){
 					url = '/get_current_stock';
 				} else {
 					url = '/get_total_stock';
-					parameters.date = this.date;
 				}
-				
+
+				let parameters = null;
 				this.selectionText = "";
 
 				if(this.searchType == 'category' && this.selectedCategory == null){
 					alert('Select a category');
 					return;
 				} else if(this.searchType == 'category' && this.selectedCategory != null) {
-					parameters.categoryId = this.selectedCategory.ProductCategory_SlNo;
+					parameters = {
+						categoryId: this.selectedCategory.ProductCategory_SlNo
+					}
 					this.selectionText = "Category: " + this.selectedCategory.ProductCategory_Name;
 				}
 				
@@ -234,7 +222,9 @@
 					alert('Select a product');
 					return;
 				} else if(this.searchType == 'product' && this.selectedProduct != null) {
-					parameters.productId = this.selectedProduct.Product_SlNo;
+					parameters = {
+						productId: this.selectedProduct.Product_SlNo
+					}
 					this.selectionText = "product: " + this.selectedProduct.display_text;
 				}
 
@@ -242,17 +232,15 @@
 					alert('Select a brand');
 					return;
 				} else if(this.searchType == 'brand' && this.selectedBrand != null) {
-					parameters.brandId = this.selectedBrand.brand_SiNo;
+					parameters = {
+						brandId: this.selectedBrand.brand_SiNo
+					}
 					this.selectionText = "Brand: " + this.selectedBrand.brand_name;
 				}
 
 
 				axios.post(url, parameters).then(res => {
-					if(this.searchType == 'current'){
-						this.stock = res.data.stock.filter((pro)=> pro.current_quantity != 0);
-					}else{
-						this.stock = res.data.stock;
-					}
+					this.stock = res.data.stock;
 					this.totalStockValue = res.data.totalValue;
 				})
 			},
@@ -271,7 +259,7 @@
 				})
 			},
 			getProducts(){
-				axios.post('/get_products', {isService: 'false'}).then(res => {
+				axios.get('/get_products').then(res => {
 					this.products =  res.data;
 				})
 			},
@@ -282,11 +270,11 @@
 			},
 			async print(){
 				let reportContent = `
-					<div class="container-fluid">
+					<div class="container">
 						<h4 style="text-align:center">${this.selectedSearchType.text} Report</h4 style="text-align:center">
 						<h6 style="text-align:center">${this.selectionText}</h6>
 					</div>
-					<div class="container-fluid">
+					<div class="container">
 						<div class="row">
 							<div class="col-xs-12">
 								${document.querySelector('#stockContent').innerHTML}

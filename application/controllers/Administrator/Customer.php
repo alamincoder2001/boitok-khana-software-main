@@ -45,7 +45,7 @@ class Customer extends CI_Controller
 
         $customerTypeClause = "";
         if(isset($data->customerType) && $data->customerType != null){
-            $customerTypeClause = " and Customer_Type = '$data->customerType'";
+            $customerTypeClause = " and Customer_Type = '$data->customerType'"; 
         }
         $customers = $this->db->query("
             select

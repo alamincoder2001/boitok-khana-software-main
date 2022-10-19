@@ -1273,7 +1273,7 @@ class Account extends CI_Controller {
     public function cashView(){
         $data['title'] = "Cash View";
 
-        $data['transaction_summary'] = $this->mt->getTransactionSummary();
+        $data['transaction_summary'] = $this->mt->getTransactionSummary(); 
 
         $data['bank_account_summary'] = $this->mt->getBankTransactionSummary();
 

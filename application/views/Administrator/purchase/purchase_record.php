@@ -150,7 +150,7 @@
 								<td style="text-align:center;">
 									<a href="" title="Purchase Invoice" v-bind:href="`/purchase_invoice_print/${purchase.PurchaseMaster_SlNo}`" target="_blank"><i class="fa fa-file-text"></i></a>
 									<?php if($this->session->userdata('accountType') != 'u'){?>
-									<a href="javascript:" title="Edit Purchase" @click="checkReturnAndEdit(purchase)"><i class="fa fa-edit"></i></a>
+									<a href="" title="Edit Purchase" v-bind:href="`/purchase/${purchase.PurchaseMaster_SlNo}`"><i class="fa fa-edit"></i></a>
 									<a href="" title="Delete Purchase" @click.prevent="deletePurchase(purchase.PurchaseMaster_SlNo)"><i class="fa fa-trash"></i></a>
 									<?php }?>
 								</td>
@@ -215,7 +215,7 @@
 							<td style="text-align:center;">
 								<a href="" title="Purchase Invoice" v-bind:href="`/purchase_invoice_print/${purchase.PurchaseMaster_SlNo}`" target="_blank"><i class="fa fa-file-text"></i></a>
 								<?php if($this->session->userdata('accountType') != 'u'){?>
-								<a href="javascript:" title="Edit Purchase" @click="checkReturnAndEdit(purchase)"><i class="fa fa-edit"></i></a>
+								<a href="" title="Edit Purchase" v-bind:href="`/purchase/${purchase.PurchaseMaster_SlNo}`"><i class="fa fa-edit"></i></a>
 								<a href="" title="Delete Purchase" @click.prevent="deletePurchase(purchase.PurchaseMaster_SlNo)"><i class="fa fa-trash"></i></a>
 								<?php }?>
 							</td>
@@ -304,15 +304,6 @@
 			}
 		},
 		methods: {
-			checkReturnAndEdit(purchase){
-				axios.get('/check_purchase_return/' + purchase.PurchaseMaster_InvoiceNo).then(res=>{
-					if(res.data.found){
-						alert('Unable to edit. Purchase return found!');
-					}else{
-						location.replace('/purchase/'+purchase.PurchaseMaster_SlNo);
-					}
-				})
-			},
 			onChangeSearchType(){
 				this.purchases = [];
 				if(this.searchType == 'quantity'){

@@ -101,7 +101,7 @@ if ($module == 'dashboard' or $module == '') { ?>
 					<div class="col-md-12 section122" style="background-color:#e6e6ff;" onmouseover="this.style.background = '#b9b9ff'" onmouseout="this.style.background = '#e6e6ff'">
 						<a href="<?php echo base_url(); ?>module/website">
 							<div class="logo">
-							<i class="fa fa-television"></i>
+								<i class="fa fa-television"></i>
 							</div>
 							<div class="textModule">
 								Website Module
@@ -362,9 +362,9 @@ if ($module == 'dashboard' or $module == '') { ?>
 						</div>
 					</div>
 				<?php endif; ?>
-				
-				
-				<?php if($this->session->userdata('BRANCHid') == 1 && (isset($CheckSuperAdmin) || isset($CheckAdmin))) : ?>
+
+
+				<?php if ($this->session->userdata('BRANCHid') == 1 && (isset($CheckSuperAdmin) || isset($CheckAdmin))) : ?>
 					<div class="col-md-2 col-xs-6 ">
 						<div class="col-md-12 section20">
 							<a href="<?php echo base_url(); ?>companyProfile">
@@ -398,90 +398,90 @@ if ($module == 'dashboard' or $module == '') { ?>
 		</div><!-- /.col -->
 	</div><!-- /.row -->
 
-<!-- website -->
+	<!-- website -->
 <?php } elseif ($module == 'website') { ?>
 
-<div class="row">
-	<div class="col-md-12 col-xs-12">
-		<!-- PAGE CONTENT BEGINS -->
-		<div class="col-md-1"></div>
-		<div class="col-md-10">
-			<!-- Header Logo -->
-			<div class="col-md-12 header">
-				<h3> Website Module </h3>
+	<div class="row">
+		<div class="col-md-12 col-xs-12">
+			<!-- PAGE CONTENT BEGINS -->
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<!-- Header Logo -->
+				<div class="col-md-12 header">
+					<h3> Website Module </h3>
+				</div>
+
+
+				<?php if (array_search("pending_order", $access) > -1 || isset($CheckSuperAdmin) || isset($CheckAdmin)) : ?>
+					<div class="col-md-2 col-xs-6 ">
+						<div class="col-md-12 section20">
+							<a href="<?php echo base_url(); ?>pending_order">
+								<div class="logo">
+									<i class="menu-icon fa fa-list-ul"></i>
+								</div>
+								<div class="textModule">
+									Pending Order
+								</div>
+							</a>
+						</div>
+					</div>
+				<?php endif; ?>
+
+				<?php if (array_search("processing_order", $access) > -1 || isset($CheckSuperAdmin) || isset($CheckAdmin)) : ?>
+					<div class="col-md-2 col-xs-6 ">
+						<div class="col-md-12 section20">
+							<a href="<?php echo base_url(); ?>processing_order">
+								<div class="logo">
+									<i class="menu-icon fa fa-list-ul"></i>
+								</div>
+								<div class="textModule">
+									Processing Order
+								</div>
+							</a>
+						</div>
+					</div>
+				<?php endif; ?>
+
+				<?php if (array_search("way_order", $access) > -1 || isset($CheckSuperAdmin) || isset($CheckAdmin)) : ?>
+					<div class="col-md-2 col-xs-6 ">
+						<div class="col-md-12 section20">
+							<a href="<?php echo base_url(); ?>way_order">
+								<div class="logo">
+									<i class="menu-icon fa fa-list-ul"></i>
+								</div>
+								<div class="textModule">
+									Way Order
+								</div>
+							</a>
+						</div>
+					</div>
+				<?php endif; ?>
+
+				<?php if (array_search("delivered_order", $access) > -1 || isset($CheckSuperAdmin) || isset($CheckAdmin)) : ?>
+					<div class="col-md-2 col-xs-6 ">
+						<div class="col-md-12 section20">
+							<a href="<?php echo base_url(); ?>delivered_order">
+								<div class="logo">
+									<i class="menu-icon fa fa-list-ul"></i>
+								</div>
+								<div class="textModule">
+									Delivered Order
+								</div>
+							</a>
+						</div>
+					</div>
+				<?php endif; ?>
+
+
+
 			</div>
 
-		
-			<?php if (array_search("pending_order", $access) > -1 || isset($CheckSuperAdmin) || isset($CheckAdmin)) : ?>
-				<div class="col-md-2 col-xs-6 ">
-					<div class="col-md-12 section20">
-						<a href="<?php echo base_url(); ?>pending_order">
-							<div class="logo">
-								<i class="menu-icon fa fa-list-ul"></i>
-							</div>
-							<div class="textModule">
-								Pending Order
-							</div>
-						</a>
-					</div>
-				</div> 
-			<?php endif; ?>
+			<!-- PAGE CONTENT ENDS -->
+		</div><!-- /.col -->
+	</div><!-- /.row -->
+	<!-- close website module -->
 
-			<?php if (array_search("processing_order", $access) > -1 || isset($CheckSuperAdmin) || isset($CheckAdmin)) : ?>
-				<div class="col-md-2 col-xs-6 ">
-					<div class="col-md-12 section20">
-						<a href="<?php echo base_url(); ?>processing_order">
-							<div class="logo">
-								<i class="menu-icon fa fa-list-ul"></i>
-							</div>
-							<div class="textModule">
-								Processing Order
-							</div>
-						</a>
-					</div>
-				</div>
-			<?php endif; ?>
-
-			<?php if (array_search("way_order", $access) > -1 || isset($CheckSuperAdmin) || isset($CheckAdmin)) : ?>
-				<div class="col-md-2 col-xs-6 ">
-					<div class="col-md-12 section20">
-						<a href="<?php echo base_url(); ?>way_order">
-							<div class="logo">
-								<i class="menu-icon fa fa-list-ul"></i>
-							</div>
-							<div class="textModule">
-								Way Order
-							</div>
-						</a>
-					</div>
-				</div>
-			<?php endif; ?>
-
-			<?php if (array_search("delivered_order", $access) > -1 || isset($CheckSuperAdmin) || isset($CheckAdmin)) : ?>
-				<div class="col-md-2 col-xs-6 ">
-					<div class="col-md-12 section20">
-						<a href="<?php echo base_url(); ?>delivered_order">
-							<div class="logo">
-								<i class="menu-icon fa fa-list-ul"></i>
-							</div>
-							<div class="textModule">
-								Delivered Order
-							</div>
-						</a>
-					</div>
-				</div>
-			<?php endif; ?>
-
-
-
-		</div>
-
-		<!-- PAGE CONTENT ENDS -->
-	</div><!-- /.col -->
-</div><!-- /.row -->
-<!-- close website module -->
-
-	<?php } elseif ($module == 'SalesModule') { ?>
+<?php } elseif ($module == 'SalesModule') { ?>
 	<div class="row">
 		<div class="col-md-12 col-xs-12">
 			<div class="col-md-1"></div>
@@ -1718,10 +1718,104 @@ if ($module == 'dashboard' or $module == '') { ?>
 			<div class="col-md-10">
 				<!-- Header Logo -->
 				<div class="col-md-12 header">
-					<img src="<?php echo base_url(); ?>assets/erp.jpg" class="img img-responsive center-block">
+					<h3>Production Module</h3>
 				</div>
-				<div class="col-md-12 txtBody">
-					Production Module
+
+				<div class="col-md-2 col-xs-6 ">
+					<div class="col-md-12 section20">
+						<a href="<?php echo base_url(); ?>production">
+							<div class="logo">
+								<i class="menu-icon fa fa-cog"></i>
+							</div>
+							<div class="textModule">
+								Production Entry
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-2 col-xs-6 ">
+					<div class="col-md-12 section20">
+						<a href="<?php echo base_url(); ?>productions">
+							<div class="logo">
+								<i class="menu-icon fa fa-save"></i>
+							</div>
+							<div class="textModule">
+								Production Record
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-2 col-xs-6 ">
+					<div class="col-md-12 section20">
+						<a href="<?php echo base_url(); ?>material_purchase">
+							<div class="logo">
+								<i class="menu-icon fa fa-cart-plus"></i>
+							</div>
+							<div class="textModule">
+								Meterial Purchase
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-2 col-xs-6 ">
+					<div class="col-md-12 section20">
+						<a href="<?php echo base_url(); ?>material_purchase_record">
+							<div class="logo">
+								<i class="menu-icon fa fa-save"></i>
+							</div>
+							<div class="textModule">
+								Purchase Record
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-2 col-xs-6 ">
+					<div class="col-md-12 section20">
+						<a href="<?php echo base_url(); ?>materials">
+							<div class="logo">
+								<i class="menu-icon fa fa-cubes"></i>
+							</div>
+							<div class="textModule">
+								Meterial Entry
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-2 col-xs-6 ">
+					<div class="col-md-12 section20">
+						<a href="<?php echo base_url(); ?>material_list">
+							<div class="logo">
+								<i class="menu-icon fa fa-file"></i>
+							</div>
+							<div class="textModule">
+								Meterial List
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-2 col-xs-6 ">
+					<div class="col-md-12 section20">
+						<a href="<?php echo base_url(); ?>material_damage">
+							<div class="logo">
+								<i class="menu-icon fa fa-chain-broken"></i>
+							</div>
+							<div class="textModule">
+								Damage Materials
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-2 col-xs-6 ">
+					<div class="col-md-12 section20">
+						<a href="<?php echo base_url(); ?>material_stock">
+							<div class="logo">
+								<i class="menu-icon fa fa-th-list"></i>
+							</div>
+							<div class="textModule">
+								Meterial Stock
+							</div>
+						</a>
+					</div>
 				</div>
 			</div>
 

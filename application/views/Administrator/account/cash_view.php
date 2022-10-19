@@ -64,7 +64,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="balance-section">
+            <div class="balance-section"> 
                 <i class="fa fa-dollar fa-3x"></i>
                 <h3>Total Balance</h3>
                 <h1><?php echo $this->session->userdata('Currency_Name');?> <?php echo number_format($transaction_summary->cash_balance + $bank_balance, 2);?></h1>

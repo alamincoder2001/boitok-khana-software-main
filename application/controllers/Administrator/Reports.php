@@ -980,4 +980,17 @@ class Reports extends CI_Controller {
 
         echo json_encode($res);
     }
+
+    public function materialList()
+	{
+		$data['title']  = 'Materials';
+        $data['materials'] = $this->db->query("
+            select
+            m.*,
+            c.ProductCategory_Name as category_name
+            from tbl_materials m
+            join tbl_productcategory c on c.ProductCategory_SlNo = m.category_id
+        ")->result();
+		$this->load->view('Administrator/reports/materialList', $data);
+    }
 }

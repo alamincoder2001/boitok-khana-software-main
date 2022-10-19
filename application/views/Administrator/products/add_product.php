@@ -101,7 +101,7 @@
                             class="add-button"><i class="fa fa-plus"></i></a></div>
                 </div>
 
-                <div class="form-group clearfix">
+                <!-- <div class="form-group clearfix">
                     <label class="control-label col-md-4">Brand:</label>
                     <div class="col-md-7">
                         <select class="form-control" v-if="brands.length == 0"></select>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="col-md-1" style="padding:0;margin-left: -15px;"><a href="/brand" target="_blank"
                             class="add-button"><i class="fa fa-plus"></i></a></div>
-                </div>
+                </div> -->
 
                 <div class="form-group clearfix">
                     <label class="control-label col-md-4">Product Name:</label>
@@ -259,7 +259,7 @@
 								<button type="button" class="button edit" @click="editProduct(row)">
 									<i class="fa fa-pencil"></i>
 								</button>
-								<button type="button" class="button" @click="deleteProduct(row.Product_SlNo)">
+								<button type="button" class="button" @click="deleteProduct(row.Product_SlNo, row.image)">
 									<i class="fa fa-trash"></i>
 								</button>
 								<?php }?>
@@ -312,7 +312,10 @@ new Vue({
             },
             products: [],
             categories: [],
-            selectedCategory: null,
+            selectedCategory: {
+                ProductCategory_SlNo: '',
+                ProductCategory_Name: 'Select Category',
+            },
             brands: [],
             selectedBrand:{
                 brand_SiNo: '',
@@ -399,12 +402,12 @@ new Vue({
                 return;
             }
 
-            if (this.selectedBrand.brand_SiNo == "") {
-                alert('Select Brand');
-                return;
-            } else {
-                this.product.brand = this.selectedBrand.brand_SiNo;
-            }
+            // if (this.selectedBrand.brand_SiNo == "") {
+            //     alert('Select Brand');
+            //     return;
+            // } else {
+            //     this.product.brand = this.selectedBrand.brand_SiNo;
+            // }
 
             this.product.ProductCategory_ID = this.selectedCategory.ProductCategory_SlNo;
             this.product.Unit_ID = this.selectedUnit.Unit_SlNo;
@@ -418,7 +421,6 @@ new Vue({
             fd.append('image', this.selectedFile);
             // fd.append('imageMultiple', this.selectedFileMultiple);
             fd.append('data', JSON.stringify(this.product));
-
             axios.post(url, fd).then(res => {
                 let r = res.data;
                 alert(r.message);
@@ -465,13 +467,14 @@ new Vue({
 					this.image = '/uploads/products/'+product.image;
 				}
         },
-        deleteProduct(productId) {
+        deleteProduct(productId, image) {
             let deleteConfirm = confirm('Are you sure?');
             if (deleteConfirm == false) {
                 return;
             }
             axios.post('/delete_product', {
-                productId: productId
+                productId: productId,
+                image: image
             }).then(res => {
                 let r = res.data;
                 alert(r.message);

@@ -1687,6 +1687,7 @@ class Sales extends CI_Controller {
 
     /*Delete Sales Record*/
     public function  deleteSales(){
+
         $res = ['success'=>false, 'message'=>''];
         try{
             $data = json_decode($this->input->raw_input_stream);

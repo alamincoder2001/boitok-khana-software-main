@@ -17,7 +17,7 @@ const orderInvoice = Vue.component('order-invoice', {
                 </div>
                 <div class="row">
                     <div class="col-xs-7">
-                        <strong>Customer Id:</strong> {{ orders.code }}<br>
+                        <strong>Customer Id:</strong> {{ orders.code??"" }}<br>
                         <strong>Customer Name:</strong> {{ orders.customer_name }}<br>
                         <strong>Customer Address:</strong> {{ orders.address }}<br>
                         <strong>Customer Mobile:</strong> {{ orders.phone }}

@@ -17,7 +17,7 @@ const salesInvoice = Vue.component('sales-invoice', {
                 </div>
                 <div class="row">
                     <div class="col-xs-7">
-                        <strong>Customer Id:</strong> {{ sales.Customer_Code }}<br>
+                        <strong v-if="sales.Customer_Code">Customer Id:</strong> {{ sales.Customer_Code }}<br>
                         <strong>Customer Name:</strong> {{ sales.Customer_Name }}<br>
                         <strong>Customer Address:</strong> {{ sales.Customer_Address }}<br>
                         <strong>Customer Mobile:</strong> {{ sales.Customer_Mobile }}
@@ -79,7 +79,7 @@ const salesInvoice = Vue.component('sales-invoice', {
                             <tr>
                                 <td><strong>Total Due:</strong></td>
                                 
-                                <td style="text-align:right">{{ (parseFloat(sales.SaleMaster_Previous_Due) + parseFloat(sales.SaleMaster_DueAmount == null ? 0.00 : sales.SaleMaster_DueAmount)).toFixed(2) }}</td>
+                                <td style="text-align:right">{{ isNaN((parseFloat(sales.SaleMaster_Previous_Due) + parseFloat(sales.SaleMaster_DueAmount == null ? 0.00 : sales.SaleMaster_DueAmount)).toFixed(2))? "0.00":(parseFloat(sales.SaleMaster_Previous_Due) + parseFloat(sales.SaleMaster_DueAmount == null ? 0.00 : sales.SaleMaster_DueAmount)).toFixed(2) }}</td>
                             </tr>
                         </table>
                     </div>

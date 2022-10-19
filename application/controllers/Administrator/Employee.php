@@ -1033,4 +1033,14 @@ class Employee extends CI_Controller
         echo json_encode($res);
     }
 
+    public function getShifts(){
+        $shifts = $this->db->query("
+            select
+            *
+            from tbl_shifts
+        ")->result();
+
+        echo json_encode($shifts);
+    }
+
 }

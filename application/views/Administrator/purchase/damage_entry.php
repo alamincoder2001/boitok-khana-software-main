@@ -32,68 +32,60 @@
 </style>
 <div id="damages">
     <div class="row" style="margin-top: 15px;">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <form class="form-horizontal" @submit.prevent="addDamage">
                 <div class="form-group">
-                    <label class="col-sm-6 control-label no-padding-right"> Code </label>
+                    <label class="col-sm-3 control-label no-padding-right"> Code </label>
                     <label class="col-sm-1 control-label no-padding-right">:</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-3">
                         <input type="text" placeholder="Code" class="form-control" v-model="damage.Damage_InvoiceNo" required readonly/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-6 control-label no-padding-right"> Date </label>
+                    <label class="col-sm-3 control-label no-padding-right"> Date </label>
                     <label class="col-sm-1 control-label no-padding-right">:</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-3">
                         <input type="date" placeholder="Date" class="form-control" v-model="damage.Damage_Date" required/>
                     </div>
 				</div>
 				
                 <div class="form-group">
-                    <label class="col-sm-6 control-label no-padding-right"> Product </label>
+                    <label class="col-sm-3 control-label no-padding-right"> Product </label>
                     <label class="col-sm-1 control-label no-padding-right">:</label>
-                    <div class="col-sm-5">
-						<v-select v-bind:options="products" label="display_text" v-model="selectedProduct" placeholder="Select Product" v-on:input="productOnChange"></v-select>
+                    <div class="col-sm-3">
+						<v-select v-bind:options="products" label="display_text" v-model="selectedProduct" placeholder="Select Product"></v-select>
                     </div>
 				</div>
 				
 				<div class="form-group">
-                    <label class="col-sm-6 control-label no-padding-right"> Damage Quantity </label>
+                    <label class="col-sm-3 control-label no-padding-right"> Damage Quantity </label>
                     <label class="col-sm-1 control-label no-padding-right">:</label>
-                    <div class="col-sm-5">
-                        <input type="number" placeholder="Quantity" class="form-control" v-model="damage.DamageDetails_DamageQuantity" required v-on:input="calculateTotal"/>
+                    <div class="col-sm-3">
+                        <input type="number" placeholder="Quantity" class="form-control" v-model="damage.DamageDetails_DamageQuantity" required/>
                     </div>
 				</div>
-
-                <div class="form-group">
-                    <label class="col-sm-6 control-label no-padding-right"> Damage Rate </label>
-                    <label class="col-sm-1 control-label no-padding-right">:</label>
-                    <div class="col-sm-5">
-                        <input type="number" step="0.01" placeholder="Rate" class="form-control" v-model="damage.damage_rate" required v-on:input="calculateTotal"/>
-                    </div>
-                </div>
 
 				<div class="form-group">
-                    <label class="col-sm-6 control-label no-padding-right"> Damage Amount </label>
+                    <label class="col-sm-3 control-label no-padding-right"> Damage Amount </label>
                     <label class="col-sm-1 control-label no-padding-right">:</label>
-                    <div class="col-sm-5">
-                        <input type="number" placeholder="Amount" class="form-control" v-model="damage.damage_amount" required disabled />
+                    <div class="col-sm-3">
+                        <input type="number" placeholder="Amount" class="form-control" v-model="damage.damage_amount" required/>
                     </div>
 				</div>
 
                 <div class="form-group">
-                    <label class="col-sm-6 control-label no-padding-right"> Description </label>
+                    <label class="col-sm-3 control-label no-padding-right"> Description </label>
                     <label class="col-sm-1 control-label no-padding-right">:</label>
-                    <div class="col-sm-5">
-                        <textarea class="form-control" placeholder="Description" v-model="damage.Damage_Description"></textarea>
+                    <div class="col-sm-3">
+                        <textarea class="form-control" placeholder="Description" v-model="damage.Damage_Description" required></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-6 control-label no-padding-right"></label>
+                    <label class="col-sm-3 control-label no-padding-right"></label>
                     <label class="col-sm-1 control-label no-padding-right"></label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-8">
                         <button type="submit" class="btn btn-sm btn-success">
                             Submit
                             <i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
@@ -101,9 +93,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="col-md-4">
-            <h1 style="display: none;" v-bind:style="{display: productStock !== '' ? '' : 'none'}">Stock : {{productStock}}</h1>
         </div>
     </div>
     <div class="row">
@@ -123,7 +112,6 @@
                             <td>{{ row.Product_Code }}</td>
                             <td>{{ row.Product_Name }}</td>
                             <td>{{ row.DamageDetails_DamageQuantity }}</td>
-                            <td>{{ row.damage_rate }}</td>
                             <td>{{ row.damage_amount }}</td>
                             <td>{{ row.Damage_Description }}</td>
                             <td>
@@ -164,20 +152,18 @@
                     Damage_Description: '',
 					Product_SlNo: '',
 					DamageDetails_DamageQuantity: '',
-					damage_rate: '',
-                    damage_amount: 0,
+					damage_amount: ''
                 },
 				products: [],
 				selectedProduct: null,
-                productStock : '',
                 damages: [],
+
 				columns: [
                     { label: 'Code', field: 'Damage_InvoiceNo', align: 'center', filterable: false },
                     { label: 'Date', field: 'Damage_Date', align: 'center' },
                     { label: 'Product Code', field: 'Product_Code', align: 'center' },
                     { label: 'Product Name', field: 'Product_Name', align: 'center' },
                     { label: 'Quantity', field: 'DamageDetails_DamageQuantity', align: 'center' },
-                    { label: 'Damage Rate', field: 'damage_rate', align: 'center' },
                     { label: 'Damage Amount', field: 'damage_amount', align: 'center' },
                     { label: 'Description', field: 'Damage_Description', align: 'center' },
                     { label: 'Action', align: 'center', filterable: false }
@@ -192,20 +178,8 @@
             this.getDamages();
         },
         methods: {
-            async productOnChange(){
-                if((this.selectedProduct.Product_SlNo != '' || this.selectedProduct.Product_SlNo != 0)){
-                    this.damage.damage_rate = this.selectedProduct.Product_Purchase_Rate;
-
-                    let damage_amount = parseFloat(this.damage.damage_rate) * parseFloat(this.damage.DamageDetails_DamageQuantity);
-                    this.damage.damage_amount = isNaN(damage_amount) ? 0 : damage_amount;
-
-                    this.productStock = await axios.post('/get_product_stock', {productId: this.selectedProduct.Product_SlNo}).then(res => {
-                        return res.data;
-                    })
-                }
-            },
             getProducts(){
-                axios.post('/get_products', {isService: 'false'}).then(res => {
+                axios.get('/get_products').then(res => {
                     this.products = res.data;
                 })
             },
@@ -214,11 +188,6 @@
 					alert('Select product');
 					return;
 				}
-
-                if(this.damage.DamageDetails_DamageQuantity > this.productStock){
-                    alert('Stock unavailable');
-                    return;
-                }
 
 				this.damage.Product_SlNo = this.selectedProduct.Product_SlNo;
 
@@ -243,14 +212,8 @@
 
                 this.selectedProduct = {
                     Product_SlNo: damage.Product_SlNo,
-                    display_text: `${damage.Product_Name} - ${damage.Product_Code}`,
-                    Product_Purchase_Rate : damage.damage_rate
+                    display_text: `${damage.Product_Name} - ${damage.Product_Code}`
                 }
-            },
-
-            calculateTotal(){
-                let damage_amount = parseFloat(this.damage.damage_rate) * parseFloat(this.damage.DamageDetails_DamageQuantity);
-                this.damage.damage_amount = isNaN(damage_amount) ? 0 : damage_amount;
             },
 
             deleteDamage(damageId){
@@ -278,10 +241,8 @@
 				this.damage.Damage_Description = '';
 				this.damage.Product_SlNo = '';
 				this.damage.DamageDetails_DamageQuantity = '';
-				this.damage.damage_rate = '';
-                this.damage.damage_amount = 0;
+				this.damage.damage_amount = '';
 				this.selectedProduct = null;
-                this.productStock = '';
 			}
         }
     })

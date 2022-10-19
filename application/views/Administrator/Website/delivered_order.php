@@ -14,10 +14,10 @@
                         <tr>
                             <td>{{ row.SaleMaster_InvoiceNo }}</td>
                             <td>{{ row.SaleMaster_SaleDate }}</td>
-                            <td>{{ row.Customer_Code }}</td>						
-							<td>{{ row.Customer_Name }}</td>
-                            <td>{{ row.Customer_Mobile }}</td>
-                            <td>{{ row.cus_message }}</td>
+                            <td>{{ row.Customer_Code??"Null" }}</td>						
+							<td>{{ row.Customer_Name??row.Customer_name }}</td>
+                            <td>{{ row.Customer_Mobile??row.Customer_phone }}</td>
+                            <td>{{ row.cus_message??row.Customer_message }}</td>
 							<td>{{ row.SaleMaster_TotalSaleAmount }}</td>
                             <td>Delivered</td>
                             <td><a href="" title="Sale Invoice" v-bind:href="`/sale_invoice_print/${row.SaleMaster_SlNo}`" target="_blank"><i class="fa fa-file"></i></a>
@@ -102,8 +102,9 @@ new Vue({
 				})
 		},
         getOrders() {
-            axios.post('/get_orders',{status: 'a',saleFrom: 'Website'}).then(res => {
+            axios.post('/get_orders',{status: 'a'}).then(res => {
                 this.orders = res.data;
+                console.log(res);
             })
         },
         fetchOrder() {

@@ -108,7 +108,7 @@
 									<button type="button" class="button edit" @click="editBrand(row)">
 										<i class="fa fa-pencil"></i>
 									</button>
-									<button type="button" class="button" @click="deletead(row.brand_SiNo)">
+									<button type="button" class="button" @click="deletead(row.brand_SiNo, row.image)">
 										<i class="fa fa-trash"></i>
 									</button>
 									<?php }?>
@@ -220,19 +220,18 @@
                 }
                 axios.post('/is_website_brands', {brandId: brandId}).then(res => {
 					let r = res.data;
-                    console.log(res.data);
 					alert(r.message);
 					if(r.success){
                         this.getbrands();
 					}
 				})
             },
-			deletead(brandId){
+			deletead(brandId, image){
 				let deleteConfirm = confirm('Are you sure?');
 				if(deleteConfirm == false){
 					return;
 				}
-				axios.post('/branddelete', {brandId: brandId}).then(res => {
+				axios.post('/branddelete', {brandId: brandId, image: image}).then(res => {
 					let r = res.data;
 					alert(r.message);
 					if(r.success){

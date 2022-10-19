@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$route['default_controller'] = 'Page';
+$route['default_controller'] = 'Login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
@@ -80,6 +80,7 @@ $route['selectCategory_by_brand/(:any)'] = 'Administrator/page/selectCategory_by
 $route['productlist'] = 'Administrator/Reports/productlist';
 $route['currentStock'] = 'Administrator/Products/current_stock';
 $route['searchStock'] = 'Administrator/Products/search_stock';
+$route['material_list'] = 'Administrator/Reports/materialList';
 $route['currentStockPrint'] = 'Administrator/Reports/current_stock';
 $route['stockAvailable'] = 'Administrator/Products/stockAvailable';
 $route['stockAvailablePrint'] = 'Administrator/Reports/stockAvailable';
@@ -366,6 +367,7 @@ $route['insertMonth'] = 'Administrator/Employee/insert_month';
 $route['editMonth/(:any)'] = 'Administrator/Employee/editMonth/$1';
 $route['updateMonth'] = 'Administrator/Employee/updateMonth';
 $route['get_months'] = 'Administrator/Employee/getMonths';
+$route['get_shifts'] = 'Administrator/Employee/getShifts';
 
 $route['get_cash_transactions'] = 'Administrator/Account/getCashTransactions';
 $route['cashTransaction'] = 'Administrator/Account/cash_transaction';
@@ -561,7 +563,7 @@ $route['edit_published_category/(:any)'] = 'Administrator/Website/edit_published
 
 //published product
 $route['published_product'] = 'Administrator/Website/published_product';
-$route['get_publisheds'] = 'Administrator/Website/get_publisheds';
+$route['get_publisheds'] = 'Administrator/Website/get_publisheds'; 
 $route['get_published_category'] = 'Administrator/Website/get_published_category';
 $route['add_published'] = 'Administrator/Website/add_published';
 $route['update_published'] = 'Administrator/Website/update_published';
@@ -613,3 +615,41 @@ $route['is_website_brands'] = 'Administrator/Page/is_website_brands';
 
 //mother api content
 // $route['get_mother_api_content'] = 'Administrator/Page/getMotherApiContent';
+
+//materials
+$route['materials'] = 'Administrator/Material/materials';
+$route['get_materials'] = 'Administrator/Material/getMaterials';
+$route['add_material'] = 'Administrator/Material/addMaterial';
+$route['update_material'] = 'Administrator/Material/updateMaterial';
+$route['change_material_status'] = 'Administrator/Material/changeMaterialStatus';
+$route['material_stock'] = 'Administrator/Material/materialStock';
+$route['get_material_stock'] = 'Administrator/Material/getMaterialStock';
+$route['material_damage'] = 'Administrator/Material/materialDamage';
+$route['add_material_damage'] = 'Administrator/Material/addMaterialDamage';
+$route['update_material_damage'] = 'Administrator/Material/updateMaterialDamage';
+$route['delete_material_damage'] = 'Administrator/Material/deleteMaterialDamage';
+$route['get_material_damage'] = 'Administrator/Material/getMaterialDamage';
+
+//Material Purchase
+$route['material_purchase'] = 'Administrator/Purchase/materialPurchase';
+$route['material_purchase/(:any)'] = 'Administrator/Purchase/materialPurchase/$1';
+$route['add_material_purchase'] = 'Administrator/Purchase/addMaterialPurchase';
+$route['update_material_purchase'] = 'Administrator/Purchase/updateMaterialPurchase';
+$route['delete_material_purchase'] = 'Administrator/Purchase/deleteMaterialPurchase';
+$route['material_purchase_record'] = 'Administrator/Purchase/MaterialPurchaseRecord';
+$route['get_material_purchase'] = 'Administrator/Purchase/getMaterialPurchase';
+$route['get_material_purchase_details'] = 'Administrator/Purchase/getMaterialPurchaseDetails';
+$route['material_purchase_invoice/(:any)'] = 'Administrator/Purchase/materialPurchaseInvoice/$1';
+
+//production
+$route['production'] = 'Administrator/Production';
+$route['production/edit/(:any)'] = 'Administrator/Production/edit/$1';
+$route['add_production'] = 'Administrator/Production/addProduction';
+$route['update_production'] = 'Administrator/Production/updateProduction';
+$route['delete_production'] = 'Administrator/Production/deleteProduction';
+$route['get_productions'] = 'Administrator/Production/getProductions';
+$route['get_production_record'] = 'Administrator/Production/getProductionRecord';
+$route['get_production_details'] = 'Administrator/Production/getProductionDetails';
+$route['get_production_products'] = 'Administrator/Production/getProductionProducts';
+$route['productions'] = 'Administrator/Production/productions';
+$route['production_invoice/(:any)'] = 'Administrator/Production/productionInvoice/$1';

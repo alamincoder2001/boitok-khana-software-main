@@ -438,7 +438,7 @@
 
 				let url = '/get_sales';
 				if(this.recordType == 'with_details'){
-					url = '/get_sales_record';
+					url = '/get_sales_record'; 
 				}
 
 				axios.post(url, filter)

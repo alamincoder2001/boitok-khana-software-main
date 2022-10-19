@@ -14,10 +14,10 @@
                         <tr>
                             <td>{{ row.SaleMaster_InvoiceNo }}</td>
                             <td>{{ row.SaleMaster_SaleDate }}</td>
-                            <td>{{ row.Customer_Code }}</td>						
-							<td>{{ row.Customer_Name }}</td>
-                            <td>{{ row.Customer_Mobile }}</td>
-                            <td>{{ row.cus_message }}</td>
+                            <td>{{ row.Customer_Code??"Null" }}</td>						
+							<td>{{ row.Customer_Name??row.Customer_name }}</td>
+                            <td>{{ row.Customer_Mobile??row.Customer_phone }}</td>
+                            <td>{{ row.cus_message??row.Customer_message }}</td>
 							<td>{{ row.SaleMaster_TotalSaleAmount }}</td>
 							<td><button type="button" class="button" @click="updateStatus(row.SaleMaster_SlNo)">
 								Delivered </button></td>

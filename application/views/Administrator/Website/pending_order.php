@@ -17,7 +17,7 @@
                             <td>{{ row.Customer_Code }}</td>						
 							<td>{{ row.Customer_Name }}</td>
                             <td>{{ row.Customer_Mobile }}</td>
-                            <td>{{ row.cus_message }}</td>
+                            <td>{{ row.cus_message??row.Customer_message }}</td>
 							<td>{{ row.SaleMaster_TotalSaleAmount }}</td>
 							<td><button type="button" class="button" @click="updateStatus(row.SaleMaster_SlNo)">
 								On Processing</button></td>
@@ -89,7 +89,7 @@ new Vue({
 				if(deleteConf == false){
 					return;
 				}
-				axios.post('/delete_sales', {saleId: saleId})
+				axios.post(location.origin+'/delete_sales', {saleId: saleId})
 				.then(res => {
 					let r = res.data;
 					alert(r.message);
