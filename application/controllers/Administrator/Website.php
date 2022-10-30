@@ -350,8 +350,18 @@ class Website extends CI_Controller
         if (!$access) {
             redirect(base_url());
         }
-        $data['title'] = "Our Shape";
+        $data['title'] = "Our Chef";
         $data['content'] = $this->load->view('Administrator/Website/our_shape', $data, TRUE);
+        $this->load->view('Administrator/index', $data);
+    }
+    public function ourclient()
+    {
+        $access = $this->mt->userAccess();
+        if (!$access) {
+            redirect(base_url());
+        }
+        $data['title'] = "Our Client";
+        $data['content'] = $this->load->view('Administrator/Website/our_client', $data, TRUE);
         $this->load->view('Administrator/index', $data);
     }
     public function get_banners()
@@ -379,6 +389,17 @@ class Website extends CI_Controller
                  s.*
              from shapes s
              where s.status = 'a' and branch_id = '$branch_id'
+         ")->result();
+        echo json_encode($shapes);
+    }
+    public function get_client()
+    {
+        $branch_id = $this->session->userdata('BRANCHid');
+        $shapes = $this->db->query("
+             select
+                 c.*
+             from clients c
+             where c.branch_id = '$branch_id'
          ")->result();
         echo json_encode($shapes);
     }
@@ -472,6 +493,33 @@ class Website extends CI_Controller
                 $uploadPath = $currentDirectory . $dir . basename($filename);                 
                 move_uploaded_file($_FILES["image"]['tmp_name'], $uploadPath); 
                 $this->db->query("update shapes set image = ? where id = ?", [$filename, $imageId]);
+            }
+            $res = ['success' => true, 'message' => 'Successfully Inserted'];
+        } catch (\Throwable $th) {
+            $res = ['success' => false, 'message' => 'Inserted Failed!'];
+        }
+
+        echo json_encode($res);
+    }
+    public function add_clients()
+    {
+        $res = ['success' => false, 'message' => 'Something went wrong'];
+        try {
+            $data = json_decode($this->input->post('data'));
+            $branch_id = $this->session->userdata('BRANCHid');
+            $this->db->query("
+            insert into clients(name,website_link, branch_id)values('$data->name','$data->website_link',$branch_id)
+        ");
+
+            $imageId = $this->db->insert_id();
+
+            if (!empty($_FILES['image'])) {
+                $currentDirectory = getcwd();
+                $dir = "/uploads/client/";
+                $filename = $_FILES['image']["name"];
+                $uploadPath = $currentDirectory . $dir . basename($filename);                 
+                move_uploaded_file($_FILES["image"]['tmp_name'], $uploadPath); 
+                $this->db->query("update clients set image = ? where id = ?", [$filename, $imageId]);
             }
             $res = ['success' => true, 'message' => 'Successfully Inserted'];
         } catch (\Throwable $th) {
@@ -588,6 +636,38 @@ class Website extends CI_Controller
 
         echo json_encode($res);
     }
+    public function update_clients()
+    {
+        $res = ['success' => false, 'message' => 'Something went wrong'];
+        try {
+            $data = json_decode($this->input->post('data'));
+            $branch_id = $this->session->userdata('BRANCHid');
+            $this->db->query("
+                update clients set name = '$data->name', website_link = '$data->website_link' where id = $data->id and branch_id = $branch_id
+            ");
+
+            $clientId = $data->id;
+
+            if (!empty($_FILES['image'])) {
+                $imagePath = './uploads/client/' . $data->image;
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+                $currentDirectory = getcwd();
+                $dir = "/uploads/client/";
+                $filename = $_FILES['image']["name"];
+                $uploadPath = $currentDirectory . $dir . basename($filename);                 
+                move_uploaded_file($_FILES["image"]['tmp_name'], $uploadPath);
+
+                $this->db->query("update clients set image = ? where id = ?", [$filename, $clientId]);
+            }
+            $res = ['success' => true, 'message' => 'Successfully Updated'];
+        } catch (\Throwable $th) {
+            $res = ['success' => false, 'message' => 'Updated Failed!'];
+        }
+
+        echo json_encode($res);
+    }
     public function delete_banner()
     {
 
@@ -621,6 +701,25 @@ class Website extends CI_Controller
                 unlink($imagePath);
             }
             $banners = $this->db->query("delete from shapes where id = $data->shapeId");
+            $res = ['success' => true, 'message' => 'Successfully Deleted'];
+        } catch (\Throwable $th) {
+            $res = ['success' => false, 'message' => 'Deleted Failed!'];
+        }
+        echo json_encode($res);
+    }
+    public function delete_client()
+    {
+
+        $res = ['success' => false, 'message' => 'Something went wrong'];
+        try {
+            $data = json_decode($this->input->raw_input_stream);
+
+            $clients = $this->db->query("select image from clients where id = $data->clientId")->row();
+            $imagePath = './uploads/client/' . $clients->image;
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $clients = $this->db->query("delete from clients where id = $data->clientId");
             $res = ['success' => true, 'message' => 'Successfully Deleted'];
         } catch (\Throwable $th) {
             $res = ['success' => false, 'message' => 'Deleted Failed!'];

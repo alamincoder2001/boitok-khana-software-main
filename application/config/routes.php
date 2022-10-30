@@ -69,6 +69,12 @@ $route['areaedit/(:any)'] = 'Administrator/Page/areaedit/$1';
 $route['areaupdate'] = 'Administrator/Page/areaupdate';
 $route['get_districts'] = 'Administrator/Page/getDistricts';
 
+$route['upazila'] = 'Administrator/Page/upazila';
+$route['insertupazila'] = 'Administrator/Page/insert_upazila';
+$route['upaziladelete'] = 'Administrator/Page/upaziladelete';
+// $route['areaupdate'] = 'Administrator/Page/areaupdate';
+// $route['get_districts'] = 'Administrator/Page/getDistricts';
+
 $route['product'] = 'Administrator/Products';
 $route['add_product'] = 'Administrator/Products/addProduct';
 $route['productEdit'] = 'Administrator/Products/product_edit';
@@ -587,6 +593,13 @@ $route['get_shape'] = 'Administrator/Website/get_shape';
 $route['add_shapes'] = 'Administrator/Website/add_shapes';
 $route['update_shapes'] = 'Administrator/Website/update_shapes';
 $route['delete_shape'] = 'Administrator/Website/delete_shape';
+
+//our client
+$route['ourclient'] = 'Administrator/Website/ourclient';
+$route['get_client'] = 'Administrator/Website/get_client';
+$route['add_clients'] = 'Administrator/Website/add_clients';
+$route['update_clients'] = 'Administrator/Website/update_clients';
+$route['delete_client'] = 'Administrator/Website/delete_client';
 
 //slider
 $route['slider'] = 'Administrator/Website/slider';

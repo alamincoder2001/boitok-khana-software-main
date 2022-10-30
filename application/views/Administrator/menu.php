@@ -362,6 +362,15 @@ if ($module == 'dashboard' or $module == '') {
 							<b class="arrow"></b>
 						</li>
 					<?php endif; ?>
+					<?php if (array_search("upazila", $access) > -1 || isset($CheckSuperAdmin) || isset($CheckAdmin)) : ?>
+						<li class="">
+							<a href="<?php echo base_url(); ?>upazila">
+								<i class="menu-icon fa fa-caret-right"></i>
+								<span class="menu-text"> Add Upazila </span>
+							</a>
+							<b class="arrow"></b>
+						</li>
+					<?php endif; ?>
 				</ul>
 			</li>
 		<?php endif; ?>
@@ -523,7 +532,17 @@ if ($module == 'dashboard' or $module == '') {
 						<li class="">
 							<a href="<?php echo base_url(); ?>ourshape">
 								<i class="menu-icon fa fa-caret-right"></i>
-								Our Chef
+								Our Management
+							</a>
+
+							<b class="arrow"></b>
+						</li>
+					<?php endif; ?>
+					<?php if (array_search("ourclient", $access) > -1 || isset($CheckSuperAdmin) || isset($CheckAdmin)) : ?>
+						<li class="">
+							<a href="<?php echo base_url(); ?>ourclient">
+								<i class="menu-icon fa fa-caret-right"></i>
+								Our Client
 							</a>
 
 							<b class="arrow"></b>

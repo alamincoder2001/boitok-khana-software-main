@@ -232,7 +232,6 @@ class Page extends CI_Controller
     {
         $district = $this->input->post('district');
         $query = $this->db->query("SELECT District_Name from tbl_district where District_Name = '$district'");
-
         if ($query->num_rows() > 0) {
             $exist = false;
             echo json_encode($exist);
@@ -283,6 +282,53 @@ class Page extends CI_Controller
         $fld = 'District_SlNo';
         $this->mt->delete_data("tbl_district", $id, $fld);
         //$this->load->view('Administrator/ajax/district');
+    }
+    public function upaziladelete()
+    {
+        $id = $this->input->post('deleted');
+        $this->db->where('id', $id);
+        $this->db->delete('upazilas');
+        //$this->load->view('Administrator/ajax/district');
+    }
+
+    // add upazila
+    public function upazila()
+    {
+        $access = $this->mt->userAccess();
+        if (!$access) {
+            redirect(base_url());
+        }
+        $data['title'] = "Add Upazila";
+        $data['content'] = $this->load->view('Administrator/add_upazila', $data, TRUE);
+        $this->load->view('Administrator/index', $data);
+    }
+
+    public function insert_upazila()
+    {
+        $upazila_id = $this->input->post('upazila_id');
+        if (empty($upazila_id)) {
+            $data = array(
+                "name"          => $this->input->post('name', TRUE),
+                "charge_amount"          => $this->input->post('charge_amount', TRUE),
+                "district_id"          => $this->input->post('district_id', TRUE),
+            );
+
+            if ($this->mt->save_data('upazilas', $data)) {
+                $msg = true;
+                echo json_encode($msg);
+            }
+        } else {
+            $data = array(
+                "name"          => $this->input->post('name', TRUE),
+                "charge_amount"          => $this->input->post('charge_amount', TRUE),
+                "district_id"          => $this->input->post('district_id', TRUE),
+            );
+
+            if ($this->mt->update_data("upazilas", $data, $upazila_id, "id")) {
+                $msg = true;
+                echo json_encode($msg);
+            }
+        }
     }
 
     public function getDistricts()
@@ -406,6 +452,20 @@ class Page extends CI_Controller
 
         $xx = $this->mt->select_by_id("tbl_company", $id, $fld);
 
+        if (!empty($_FILES['image']['name'])) {
+            $imagePath = './uploads/website_image/' . $xx->websiteImage;
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $currentDirectory = getcwd();
+            $dir = "/uploads/website_image/";
+            $filename = time() . "-" . $_FILES['image']["name"];
+            $uploadPath = $currentDirectory . $dir . basename($filename);
+            move_uploaded_file($_FILES["image"]['tmp_name'], $uploadPath);
+            $this->db->where('Company_SlNo', $inpt);
+            $this->db->update('tbl_company', array("websiteImage" => $filename));
+        }
+
         $image = $this->upload->do_upload('companyLogo');
         $images = $this->upload->data();
 
@@ -454,6 +514,7 @@ class Page extends CI_Controller
 
         $data["phone"]   = $this->input->post('phone', true);
         $data["facebook"] = $this->input->post('facebook', true);
+        $data["instagram"] = $this->input->post('instagram', true);
         $data["youtube"]  = $this->input->post('youtube', true);
         $data["linkedin"] = $this->input->post('linkedin', true);
         $data["twitter"]  = $this->input->post('twitter', true);
@@ -462,6 +523,20 @@ class Page extends CI_Controller
         $data["faq"]      = $this->input->post('faq', true);
 
         $xx = $this->db->query("select * from tbl_company order by Company_SlNo desc limit 1")->row();
+
+        if (!empty($_FILES['websiteImage']['name'])) {
+            $imagePath = './uploads/website_image/' . $xx->websiteImage;
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $currentDirectory = getcwd();
+            $dir = "/uploads/website_image/";
+            $filename = time() . "-" . $_FILES['websiteImage']["name"];
+            $uploadPath = $currentDirectory . $dir . basename($filename);
+            move_uploaded_file($_FILES["websiteImage"]['tmp_name'], $uploadPath);
+            $this->db->where('Company_SlNo', $xx->Company_SlNo);
+            $this->db->update('tbl_company', array("websiteImage" => $filename));
+        }
 
         if (!isset($_FILES['companyLogo']) || $_FILES['companyLogo']['error'] == UPLOAD_ERR_NO_FILE) {
             $data['print_type'] = $inpt;
@@ -493,6 +568,7 @@ class Page extends CI_Controller
                 $data['Company_Logo_org'] = $xx->Company_Logo_org;
                 $data['Company_Logo_thum'] = $xx->Company_Logo_thum;
             }
+
             $data['print_type'] = $inpt;
             $this->db->update('tbl_company', $data);
             $id = '1';
@@ -849,7 +925,7 @@ class Page extends CI_Controller
         $res = ['success' => false, 'message' => 'Something went wrong'];
         try {
             $data = json_decode($this->input->raw_input_stream);
-            if($data->image != ""){
+            if ($data->image != "") {
                 $imagePath = './uploads/brands/' . $data->image;
                 if (file_exists($imagePath)) {
                     unlink($imagePath);
